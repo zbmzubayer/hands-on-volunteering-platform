@@ -5,6 +5,9 @@ import express, { type Application } from "express";
 import helmet from "helmet";
 
 import { ENV } from "@/config";
+import { globalErrorFilter, httpLoggerMiddleware } from "@/middleware";
+import router from "@/routes";
+import { HttpStatus } from "@/shared/enums";
 
 export default function expressApp() {
   const app: Application = express();
@@ -24,6 +27,16 @@ export default function expressApp() {
   app.get("/health", async (req, res) => {
     res.status(200).json({ message: "API healthy" });
   });
+
+  app.use(httpLoggerMiddleware); // Logs http requests metadata
+
+  app.get("/health", async (req, res) => {
+    res.status(HttpStatus.OK).json({ message: "API healthy" });
+  });
+
+  app.use("/api/v1", router);
+
+  app.use(globalErrorFilter);
 
   return app;
 }
