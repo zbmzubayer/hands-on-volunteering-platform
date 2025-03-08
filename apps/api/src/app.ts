@@ -4,9 +4,11 @@ import cors from "cors";
 import express, { type Application } from "express";
 import helmet from "helmet";
 
+import { ENV } from "@/config";
+
 export default function expressApp() {
   const app: Application = express();
-  app.use(cors({ origin: "*", credentials: true }));
+  app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
 
   app.use(helmet());
 

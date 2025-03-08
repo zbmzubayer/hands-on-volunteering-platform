@@ -1,11 +1,13 @@
 import { type Server, createServer } from "http";
 
 import expressApp from "@/app";
+import { ENV } from "@/config";
 
 async function bootstrap() {
   const app = expressApp();
   const server: Server = createServer(app);
-  const port = process.env.PORT || 5000;
+
+  const port = ENV.PORT;
 
   try {
     server.listen(port, () => {
