@@ -1,0 +1,18 @@
+{
+  "extends": "@handson/typescript-config/base.json",
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "allowJs": true,
+    "sourceMap": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true,
+    "outDir": "dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "./**/*.ts", "./**/*.tsx", "./**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "public"]
+}
