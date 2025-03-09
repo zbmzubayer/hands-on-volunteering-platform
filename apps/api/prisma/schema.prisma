@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile                Profile?
+  volunteerEvents        VolunteerEvent[]
+  volunteerEventAttendee VolunteerEventAttendee[]
+  helpRequests           HelpRequest[]
+  helpRequestComments    HelpRequestComment[]
+  teamMembers            TeamMember[]
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  name      String
+  avatar    String?
+  bio       String?
+  skills    String[]
+  causes    String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String   @unique
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model VolunteerEvent {
+  id                String   @id @default(uuid())
+  title             String
+  location          String
+  date              DateTime
+  category          String
+  availability      String
+  isPlatformCreated Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  createdBy         String
+
+  user                    User                     @relation(fields: [createdBy], references: [id])
+  volunteerEventAttendees VolunteerEventAttendee[]
+
+  @@index([createdBy, date(sort: Desc)])
+}
+
+model VolunteerEventAttendee {
+  eventId String
+  userId  String
+
+  volunteerEvent VolunteerEvent @relation(fields: [eventId], references: [id])
+  user           User           @relation(fields: [userId], references: [id])
+
+  @@id([eventId, userId])
+  @@index([eventId, userId])
+}
+
+model HelpRequest {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  location    String
+  urgency     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String
+
+  user                User                 @relation(fields: [createdBy], references: [id])
+  helpRequestComments HelpRequestComment[]
+}
+
+model HelpRequestComment {
+  id            String   @id @default(uuid())
+  text          String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  helpRequestId String
+  userId        String
+
+  helpRequest HelpRequest @relation(fields: [helpRequestId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@index([helpRequestId, userId])
+}
+
+model Team {
+  id          String       @id @default(uuid())
+  teamName    String       @unique
+  description String?
+  isPublic    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  members     TeamMember[]
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  userId    String
+  teamId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+  team Team @relation(fields: [teamId], references: [id])
+
+  @@index([userId, teamId])
+}
