@@ -1,5 +1,7 @@
 import { type Server, createServer } from "http";
 
+import { connectDb } from "@/lib/db";
+
 import expressApp from "@/app";
 import { ENV } from "@/config";
 import { logger } from "@/shared/logger";
@@ -7,8 +9,9 @@ import { logger } from "@/shared/logger";
 async function bootstrap() {
   const app = expressApp();
   const server: Server = createServer(app);
-
   const port = ENV.PORT;
+
+  await connectDb();
 
   try {
     server.listen(port, () => {
