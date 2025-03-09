@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=handsonDB
+      - POSTGRES_USER=handson
+      - POSTGRES_PASSWORD=handson123456
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  postgres_is_ready:
+    image: postgres:17-alpine
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  db_data:
