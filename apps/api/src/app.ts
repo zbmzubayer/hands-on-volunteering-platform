@@ -24,11 +24,10 @@ export default function expressApp() {
 
   app.use(express.static("public"));
 
+  app.use(httpLoggerMiddleware); // Logs http requests metadata
   app.get("/health", async (req, res) => {
     res.status(200).json({ message: "API healthy" });
   });
-
-  app.use(httpLoggerMiddleware); // Logs http requests metadata
 
   app.get("/health", async (req, res) => {
     res.status(HttpStatus.OK).json({ message: "API healthy" });

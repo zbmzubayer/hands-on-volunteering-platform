@@ -2,6 +2,7 @@ import { type Server, createServer } from "http";
 
 import expressApp from "@/app";
 import { ENV } from "@/config";
+import { logger } from "@/shared/logger";
 
 async function bootstrap() {
   const app = expressApp();
@@ -11,10 +12,10 @@ async function bootstrap() {
 
   try {
     server.listen(port, () => {
-      console.log(`HansOn server started on port: ${port}`);
+      logger.log(`Server is running on port ${port}`, "Bootstrap");
     });
   } catch (error) {
-    console.error(`Failed to start HandsOn API:  ${error}`);
+    logger.error(`Failed to start HandsOn API:  ${error}`, "Bootstrap");
     process.exit(1);
   }
 }

@@ -1,5 +1,7 @@
 import { type NextFunction, type Request, type Response } from "express";
 
+import { logger } from "@/shared/logger";
+
 export default function httpLoggerMiddleware(request: Request, response: Response, next: NextFunction): void {
   const { ip, method, originalUrl } = request;
   const userAgent = request.get("user-agent") || "";
@@ -7,7 +9,8 @@ export default function httpLoggerMiddleware(request: Request, response: Respons
   response.on("close", () => {
     const { statusCode } = response;
     const contentLength = response.get("content-length");
-    console.log(`${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}`, "HTTP");
+    const level = statusCode > 399 ? "error" : "log";
+    logger[level](`${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}`, "HTTP");
   });
   next();
 }

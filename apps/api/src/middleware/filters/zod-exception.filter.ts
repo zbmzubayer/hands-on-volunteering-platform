@@ -2,6 +2,7 @@ import { type ZodError } from "zod";
 
 import { type ApiErrorResponse } from "@/shared";
 import { ApiStatus, HttpStatus } from "@/shared/enums";
+import { logger } from "@/shared/logger";
 
 const zodErrorFilter = (error: ZodError): ApiErrorResponse => {
   const errorResponse: ApiErrorResponse = {
@@ -15,7 +16,7 @@ const zodErrorFilter = (error: ZodError): ApiErrorResponse => {
       })),
     },
   };
-  console.error("ZodErrorFilter", errorResponse);
+  logger.error(errorResponse, "ZodErrorFilter");
   return errorResponse;
 };
 
