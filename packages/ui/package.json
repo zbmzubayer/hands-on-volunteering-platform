@@ -7,6 +7,8 @@
     "./heroui": "./src/heroui/index.ts",
     "./lib": "./src/lib/index.ts",
     "./providers": "./src/providers/index.ts",
+    "./components": "./src/components/index.ts",
+    "./icons": "./src/components/icons/index.ts",
     "./styles": "./src/styles/index.tsx",
     "./tailwind-config": "./src/tailwind-config/index.ts"
   },
@@ -27,11 +29,14 @@
   "dependencies": {
     "@heroui/alert": "^2.2.16",
     "@heroui/button": "^2.2.16",
+    "@heroui/card": "^2.2.15",
     "@heroui/input": "^2.4.16",
     "@heroui/system": "^2.4.12",
     "@heroui/theme": "^2.4.12",
     "framer-motion": "^12.4.11",
+    "next": "15.2.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0"
   }
 }
