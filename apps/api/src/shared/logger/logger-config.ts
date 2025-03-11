@@ -50,7 +50,7 @@ export const loggerConfig = (): LoggerOptions => {
     exceptionHandlers: [new transports.Console()],
     rejectionHandlers: [new transports.Console()],
     defaultMeta: {
-      service: "handson-api",
+      service: "HandsOn-API",
     },
   };
 };
