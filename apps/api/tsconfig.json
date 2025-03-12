@@ -10,7 +10,9 @@
     "removeComments": true,
     "outDir": "dist",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@handson/validations": ["../../packages/validations/src"],
+      "@handson/enums": ["../../packages/enums/src"]
     }
   },
   "include": ["src", "./**/*.ts", "./**/*.tsx", "./**/*.d.ts"],
