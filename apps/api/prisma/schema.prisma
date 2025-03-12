@@ -11,15 +11,16 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
+  role      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  profile                Profile?
-  volunteerEvents        VolunteerEvent[]
-  volunteerEventAttendee VolunteerEventAttendee[]
-  helpRequests           HelpRequest[]
-  helpRequestComments    HelpRequestComment[]
-  teamMembers            TeamMember[]
+  profile                 Profile?
+  volunteerEvents         VolunteerEvent[]
+  volunteerEventAttendees VolunteerEventAttendee[]
+  helpRequests            HelpRequest[]
+  helpRequestComments     HelpRequestComment[]
+  teamMembers             TeamMember[]
 }
 
 model Profile {
