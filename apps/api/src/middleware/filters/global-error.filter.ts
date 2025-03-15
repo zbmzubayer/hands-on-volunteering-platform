@@ -2,8 +2,11 @@
 import { type ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
 
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+
 import { ENV } from "@/config";
-import zodErrorFilter from "@/middleware/filters/zod-exception.filter";
+import { prismaErrorFilter } from "@/middleware/filters/prisma-error.filter";
+import zodErrorFilter from "@/middleware/filters/zod-error.filter";
 import { ApiError, type ApiErrorResponse } from "@/shared";
 import { ApiStatus, HttpStatus } from "@/shared/enums";
 
@@ -26,6 +29,11 @@ const globalErrorFilter: ErrorRequestHandler = (err, req, res, next) => {
     errorResponse.statusCode = err.statusCode;
     errorResponse.message = err.message;
     errorResponse.error.details = err?.message ? [{ path: "", message: err?.message }] : [];
+  } else if (err instanceof PrismaClientKnownRequestError) {
+    const { error, statusCode, message } = prismaErrorFilter(err);
+    errorResponse.statusCode = statusCode;
+    errorResponse.message = message;
+    errorResponse.error.details = error.details;
   } else if (err instanceof Error) {
     errorResponse.message = err?.message;
     errorResponse.error.details = err?.message
