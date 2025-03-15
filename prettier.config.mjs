@@ -16,8 +16,7 @@ export default {
     "<THIRD_PARTY_MODULES>",
     "^@(?!heroui)(?!handson)[^/](.*)$", // all started with @ but not @/, @heroui, @handson
     "^@(handson)/(.*)$",
-    "^@/(config|constants|lib|hooks|utils)/(.*)$", // config, constants, lib, hooks, utils ends with or without /
-    "^@/(.*)$", // all started with @/
+    "^@/(?!components)(?!providers)(.*)$", // all started with @/ but not @/components and @/providers
     "^@/providers/(.*)$", // providers
     "^@heroui(.*)$", // heroui
     "^@/components/(.*)$",
