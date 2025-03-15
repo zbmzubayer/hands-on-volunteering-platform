@@ -20,7 +20,7 @@ model User {
   volunteerEventAttendees VolunteerEventAttendee[]
   helpRequests            HelpRequest[]
   helpRequestComments     HelpRequestComment[]
-  teamMembers             TeamMember[]
+  teams                   TeamMember[]
 }
 
 model Profile {
