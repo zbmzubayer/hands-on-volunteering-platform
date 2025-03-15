@@ -1,9 +1,8 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { decode, getToken } from "next-auth/jwt";
 
-import { prisma } from "@/lib/db";
-
 import { ENV } from "@/config";
+import { prisma } from "@/lib/db";
 import { ApiError } from "@/shared/api-error";
 import { HttpStatus } from "@/shared/enums";
 import { logger } from "@/shared/logger";
@@ -15,11 +14,9 @@ export const authGuard = () => async (req: Request, res: Response, next: NextFun
     payload = await getToken({ req, secret: ENV.AUTH_SECRET });
     const headerToken = req.headers.authorization?.split(" ")[1];
     // Check if the token is present in the request headers
-    console.log("token", payload, headerToken);
     if (!payload && headerToken) {
       payload = await decode({ token: headerToken, secret: ENV.AUTH_SECRET });
     }
-    console.log(payload);
     if (!payload) {
       throw new ApiError(HttpStatus.UNAUTHORIZED, "Authentication token is missing or invalid.");
     }
